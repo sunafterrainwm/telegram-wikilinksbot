@@ -65,7 +65,7 @@ messages = {
             "chat. Only group administrators or the bot's maintainers may change the configuration."),
     "delete_error": ("There's nothing I can delete. <b>Reply</b> to any of my messages "
             "(including this one) with <code>/delete</code> to delete that message."),
-    "search_nothing": ("🤖 You gotta give me something to work with here! Type <code>/search</code> "
+    "search_nothing": ("🤖 You gotta give me something to work with here! Type <code>/searchwiki</code> "
             "followed by what you want to search for."),
     "search_noresults": "🔎 No <a href=\"{0}\">results</a>. 😔",
     "search_oneresult": "🔎 <b>Only</b> <a href=\"{0}\">result</a>:\n",
@@ -448,8 +448,8 @@ def findlinks(update, context):
 
 def search(update, context):
     """
-    Search feature. Searches for any query after the `/search` command. Default
-    amount of results returned is 3; optionally supply a number with `/search:x`
+    Search feature. Searches for any query after the `/searchwiki` command. Default
+    amount of results returned is 3; optionally supply a number with `/searchwiki:x`
     to return a different number of results.
     """
     conf = getconfig(update.effective_chat.id)
@@ -702,7 +702,7 @@ def start(update, context):
 link_handler = MessageHandler(Filters.regex(regex), findlinks)
 media_link_handler = MessageHandler(Filters.caption_regex(regex), findlinks)
 config_handler = CommandHandler(['setwiki', 'setlang', 'toggle', 'listconfig'], config)
-search_handler = CommandHandler('search', search)
+search_handler = CommandHandler('searchwiki', search)
 start_handler = CommandHandler(['start', 'help'], start)
 delete_handler = CommandHandler('delete', delete)
 

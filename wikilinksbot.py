@@ -18,26 +18,20 @@ with open("group_settings.json", "r") as settings:
     global_conf = json.load(settings)
 
 messages = {
-    "start-group": ("🤖 Hello! I am a bot that links [[wiki links]], Wikidata "
-            "entities and optionally Phabricator tasks when they are mentioned in chats. You can "
-            "<a href='https://t.me/wikilinksbot'>start a private chat with me</a> "
-            "to test me out and learn about how I can be configured. If you don't "
-            "like one of my messages, reply to it with <code>/delete</code>."),
-    "start-private": ("🤖 Hello! I am a bot that links [[wiki links]], Wikidata entities "
-            "and Phabricator tasks "
-            "when they are mentioned in chats. I have the following configuration options, "
-            "try any of them here to see how they work:\n\n"
-            "/setwiki – Change which wiki links point to\n"
+    "start-group": ("🤖您好！我是連結機器人，當訊息中有提及任何[[維基連結]]的時
+候，就會提供連結。"
+    "您可以<a href='https://t.me/linky_zh_bot'>私訊我</a>來測試各項功能。"
+    "您可以使用 <code>/delete</code> 指令回覆我的任何訊息以刪除之。祝 編安！"),
+    "start-private": ("🤖您好！我是連結機器人，當訊息中有提及任何[[維基連結]]的
+時候，就會提供連結。您可以在此測試以下這些功能如何運作：\n\n🤖"
+            "/setwiki – 更改連結路徑\n"
             "/setlang – Change which language to use for Wikidata labels\n"
             "/toggle – Turn the link types on or off\n"
-            "/listconfig – Show the current configuration for this chat\n\n"
-            "If you don't like one of my messages, reply to it with <code>/delete</code>, "
-            "and I will delete it. If I'm made administrator in a group, I will delete "
-            "your <code>/delete</code> message as well!\n\n"
-            "My source code and documentation is available "
-            "<a href='https://github.com/jhsoby/wikilinksbot'>on GitHub</a> – "
-            "Feel free to report any issues you may have with me there! 😊"
-            "If you just have some questions, feel free to ask my creator, @jhsoby."),
+            "/listconfig – 檢視當前設置\n\n"
+            "您可以使用 <code>/delete</code> 指令回覆我的任何訊息以刪除之。"
+            "如果我有被設置為群組管理員，我也會一併將您的 <code>/delete</code> 指令刪除。\n\n"
+            "原始碼與說明文件參見："
+            "https://github.com/jhsoby/wikilinksbot"),            
     "setwiki_success": "✅ The URL for {0} has been updated to {1} for this chat.",
     "setwiki_invalid": ("❌ I am not able to recognize that URL as a MediaWiki wiki.\n\n"
             "Please check that you entered the URL correctly. If you believe this "
@@ -295,7 +289,7 @@ def link_normal(link, site, toggle_mylang=False):
     if iswiki:
         if redirect:
             target = redirect
-            extra = "⮡ " + redirect
+            extra = "→" + redirect
         if toggle_mylang and translatable(site, target):
             target = "Special:MyLanguage/" + target
         domain += site["articlepath"]
@@ -344,7 +338,7 @@ def link_template(link, site):
     redirect = resolvedlink[3]
     if redirect:
         target = redirect
-        extra = "⮡ " + redirect
+        extra = "→" + redirect
     target = target.replace("\"", "%22").replace("?", "%3F").replace(" ", "_")
     return {
         "url": site["baseurl"] + site["articlepath"] + target,
@@ -441,7 +435,7 @@ def findlinks(update, context):
     messagetext = update.message.caption or update.message.text
     linklist = re.findall(regex, messagetext) # List all matches with the main regex
     fmt_linklist = [] # Formatted link list
-    hide_preview = True
+    hide_preview = False
     for link in linklist:
         link = link[0].replace("\u200e", "").replace("\u200f", "") # Remove &lrm; and &rlm;, cause links to not link in some (mysterious?) circumstances
         link = linkformatter(link, getconfig(update.effective_chat.id))
@@ -493,7 +487,7 @@ def search(update, context):
                 numbertosearchfor = 1
             if totalhits == 0:
                 returnmessage = messages["search_noresults"].format(resulturl)
-                update.message.reply_html(text=returnmessage, disable_web_page_preview=True)
+                update.message.reply_html(text=returnmessage, disable_web_page_preview=False)
             elif totalhits == 1:
                 returnmessage = messages["search_oneresult"].format(resulturl)
             elif numbertosearchfor == totalhits:
@@ -502,7 +496,7 @@ def search(update, context):
                 returnmessage = messages["search_results"].format(numbertosearchfor, totalhits, resulturl)
             returnmessage += " • " + "\n • ".join(results)
             if totalhits != 0:
-                update.message.reply_html(text=returnmessage, disable_web_page_preview=True)
+                update.message.reply_html(text=returnmessage, disable_web_page_preview=False)
 
 def getconfig(chat_id):
     """
@@ -512,7 +506,7 @@ def getconfig(chat_id):
     chat_id = str(chat_id)
     conf = { # Default configuration
         "normallinks": {
-            "baseurl": "https://en.wikipedia.org",
+            "baseurl": "https://zh.wikipedia.org",
             "articlepath": "/wiki/",
             "apipath": "/w/api.php"
             },
@@ -522,11 +516,11 @@ def getconfig(chat_id):
             "apipath": "/w/api.php"
             },
         "toggle_normallinks": True,
-        "toggle_wikibaselinks": True,
-        "toggle_phabricator": True,
+        "toggle_wikibaselinks": False,
+        "toggle_phabricator": False,
         "toggle_mylanguage": True,
         "toggle_templates": True,
-        "language": "en"
+        "language": "zh"
     }
     if chat_id in global_conf:
         for x in global_conf[chat_id]:
@@ -588,7 +582,7 @@ def config(update, context):
                     f.truncate()
                 validurlentered = True
                 successtext = messages["setwiki_success"].format(options[option], domain)
-                update.message.reply_html(text=successtext, disable_web_page_preview=True)
+                update.message.reply_html(text=successtext, disable_web_page_preview=False)
             except:
                 pass
             if not validurlentered:
@@ -668,7 +662,7 @@ def config(update, context):
                 else:
                     configlist.append("· <b>" + configexplanations[k].format(onoff[str(thisconfig[k])]) + "</b>")
         configlist.append("\nAs always, you can reply to this message with /delete to delete this message.")
-        update.message.reply_text(text="\n".join(configlist), parse_mode="html", disable_web_page_preview=True)
+        update.message.reply_text(text="\n".join(configlist), parse_mode="html", disable_web_page_preview=False)
     else:
         errortext = messages[command[1:] + "_error"]
         update.message.reply_text(text=errortext, parse_mode="html")
@@ -696,7 +690,7 @@ def start(update, context):
     message = "start-group"
     if update.effective_chat.type == "private":
         message = "start-private"
-    context.bot.send_message(chat_id=update.effective_chat.id, text=messages[message], parse_mode="html", disable_web_page_preview=True)
+    context.bot.send_message(chat_id=update.effective_chat.id, text=messages[message], parse_mode="html", disable_web_page_preview=False)
 
 # Function used when testing changes to the bot with the command /echo. Uncomment to enable.
 #def echo(update, context):

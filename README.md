@@ -13,8 +13,8 @@ This is a Python3 script that links [[wiki links]], Wikidata entities (like [Q33
 * The bot can delete its own messages when they are replied to with `/delete`
   * It will also try to delete the message with the `/delete` command, but this
   only works if the bot has the right to delete messages (is group admin)
-* Search the group's wiki with `/search search query`. Default is the first 3
-  results; optionally return a different amount of results with `/search:x
+* Search the group's wiki with `/searchwiki search query`. Default is the first 3
+  results; optionally return a different amount of results with `/searchwiki:x
   search query` where `x` is any number between 1 and 10.
 * Can link practically any publically available wiki.
 * Changing the default URLs used for links in one group _(group admins only)_
@@ -23,7 +23,7 @@ This is a Python3 script that links [[wiki links]], Wikidata entities (like [Q33
 * List the current configuration of the bot _(group admins only)_
 
 ## How to use in a chat
-Add **[@wikilinksbot](https://t.me/wikilinksbot)** to your group, and test it out by sending
+Add **[@wikilinksbot](https://t.me/peacearth_linky_bot)** to your group, and test it out by sending
 a message with a [[wiki link]] or a Wikidata entity like Q42.
 
 If you don't like one of the messages the bot has sent, you can reply to it with `/delete`,
@@ -39,7 +39,7 @@ The commands can only be used by group administrators or bot maintainers, in ord
 /setwiki (normallinks|wikibaselinks) https://URL/
 ```
 
-This command is used for changing the URL links point to. The default is [https://en.wikipedia.org/](https://en.wikipedia.org/) for [[normal links]] and [https://www.wikidata.org/](https://www.wikidata.org/) for Wikibase links. You can link other wikis like you would on-wiki using interwiki prefixes (e.g. [\[\[c:Special:UploadWizard\]\]](https://commons.wikimedia.org/wiki/Special:UploadWizard) or [\[\[de:Schadenfreude\]\]](https://de.wikipedia.org/wiki/Schadenfreude)).
+This command is used for changing the URL links point to. The default is [https://zh.wikipedia.org/](https://zh.wikipedia.org/) for [[normal links]] and [https://www.wikidata.org/](https://www.wikidata.org/) for Wikibase links. You can link other wikis like you would on-wiki using interwiki prefixes (e.g. [\[\[c:Special:UploadWizard\]\]](https://commons.wikimedia.org/wiki/Special:UploadWizard) or [\[\[de:Schadenfreude\]\]](https://de.wikipedia.org/wiki/Schadenfreude)).
 
 Practically any publically available MediaWiki wiki can be set as the target wiki. If the wiki follows an unusual URL scheme (i.e. something other than `$URL/wiki/Pagename`), try using the URL of a page on the wiki when setting this option.
 

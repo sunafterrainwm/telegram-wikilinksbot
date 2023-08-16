@@ -19,7 +19,7 @@ with open("/data/project/zhwiki-teleirc/telegram-wikilinksbot/group_settings.jso
 
 messages = {
     "start-group": ("🤖您好！我是連結機器人，當訊息中有提及任何[[維基連結]]的時候，就會提供連結。"
-    "您可以<a href='https://t.me/linky_zh_bot'>私訊我</a>來測試各項功能。"
+    "您可以<a href='https://t.me/peacearth_linky_bot'>私訊我</a>來測試各項功能。"
     "您可以使用 <code>/delete</code> 指令回覆我的任何訊息以刪除之。祝 編安！"),
     "start-private": ("🤖您好！我是連結機器人，當訊息中有提及任何[[維基連結]]的時候，就會提供連結。您可以在此測試以下這些功能如何運作：\n\n🤖"
             "/setwiki – 更改連結路徑\n"

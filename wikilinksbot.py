@@ -569,7 +569,7 @@ def config(update, context):
                         entitypath = api["wikibase-conceptbaseuri"]
                         entitypath = "/" + "/".join(entitypath.split("/")[3:])
                         linksetting = {"baseurl": domain, "entitypath": entitypath, "apipath": apipath}
-                with open("group_settings.json", "r+") as f:
+                with open("/data/project/zhwiki-teleirc/telegram-wikilinksbot/group_settings.json", "r+") as f:
                     settings = json.load(f)
                     if chat_id in settings:
                         settings[chat_id][option] = linksetting
@@ -591,7 +591,7 @@ def config(update, context):
         toggle = message[2]
         toggles = {"on": True, "off": False}
         if option in options and toggle in ["on", "off"]:
-            with open("group_settings.json", "r+") as f:
+            with open("/data/project/zhwiki-teleirc/telegram-wikilinksbot/group_settings.json", "r+") as f:
                 settings = json.load(f)
                 if chat_id in settings:
                     settings[chat_id][option] = toggles[toggle]
@@ -615,7 +615,7 @@ def config(update, context):
             errortext = messages["setlang_invalid"].format(error) + messages["setlang_error"]
             update.message.reply_text(text=errortext, parse_mode="html")
         else:
-            with open("group_settings.json", "r+") as f:
+            with open("/data/project/zhwiki-teleirc/telegram-wikilinksbot/group_settings.json", "r+") as f:
                 settings = json.load(f)
                 if chat_id in settings:
                     settings[chat_id]["language"] = languages
@@ -664,7 +664,7 @@ def config(update, context):
     else:
         errortext = messages[command[1:] + "_error"]
         update.message.reply_text(text=errortext, parse_mode="html")
-    with open("group_settings.json", "r") as settings:
+    with open("/data/project/zhwiki-teleirc/telegram-wikilinksbot/group_settings.json", "r") as settings:
         global global_conf
         global_conf = json.load(settings)
 

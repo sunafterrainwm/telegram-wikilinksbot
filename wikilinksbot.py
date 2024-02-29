@@ -674,10 +674,13 @@ def delete(update, context):
     """
     # Check if the message is a reply, and that the message being replied
     # to is sent by this bot.
-    if update.message.reply_to_message and (context.bot.username == update.message.reply_to_message.from_user.username):
-        context.bot.delete_message(chat_id=update.effective_chat.id, message_id=update.message.reply_to_message.message_id)
-        context.bot.delete_message(chat_id=update.effective_chat.id, message_id=update.message.message_id)
-    else:
+	message_split = update.message.text.split()
+ 	# Check if the message is a reply, and that the message being replied
+ 	# to is sent by this bot.
+ 	if update.message.reply_to_message and (context.bot.username == update.message.reply_to_message.from_user.username):
+ 		context.bot.delete_message(chat_id=update.effective_chat.id, message_id=update.message.reply_to_message.message_id)
+ 		context.bot.delete_message(chat_id=update.effective_chat.id, message_id=update.message.message_id)
+	elif '@' in message_split[0]:
         update.message.reply_html(text=messages["delete_error"])
 
 def start(update, context):
